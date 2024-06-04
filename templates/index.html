@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duygu Analizi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            text-align: center;
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            resize: none;
+            border-radius: 8px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius : 8px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 30px;
+        }
+        .result p {
+            margin-bottom: 10px;
+        }
+        .skor{
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        #reset_btn{
+            background-color: #1f9aad;
+        }
+        #reset_btn:hover{
+            background-color: #146d7a;
+        }
+        #reset_btn_go{
+            background-color: #4b9462;
+        }
+        #reset_btn_go:hover{
+            background-color: #2d7543;
+        }
+        .gameover {
+            margin-top: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            color: #781635;
+            font-size: 20px;
+        }
+        html{
+            color: #28545c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!--Oyun sırasında göster-->
+        {% if gameover == False %}
+            <h1>Metinden Duygu Analizi</h1>
+            <div class="result">
+                <h2 class="skor">Toplam Skorunuz: {{ total_score }}</h2>
+                <h2 class="skor">Kalan hakkınız: {{ attempts }}</h2>
+                {% if current_result %}
+                    <p><strong>Son Tahmin Edilen Duygu:</strong> {{ current_result.predicted_emotion }}</p>
+                    <p><strong>Son Tahmin Edilen Duygu Olasılıkları:</strong></p>
+                {% endif %}
+                <ul>
+                    {% for i, prob in enumerate(current_result.probabilities) %}
+                        <li>{{ model_classes[i] }}: {{ (prob * 100) | round(2) }}%</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <form action="/" method="post">
+                <h2>Lütfen aşağıdaki duyguya ait bir cümle yazınız</h2>
+                <h2><strong> {{ emotion }} </strong></h2>
+                <textarea name="text" placeholder="Lütfen bir cümle girin..." required></textarea><br>
+                <input type="submit" value="Gönder">
+            </form>
+            <form action="/reset" method="post" style="margin-top: 15px">
+                <input id="reset_btn" type="submit" value="Yeniden Başlat">
+            </form>
+        {% endif %}
+
+        <!--Oyun bittiği zaman göster-->
+        {% if gameover == True %}
+        <div class="gameover">
+           <div>
+                <p>OYUN BİTTİ</p>
+                <p>SKORUNUZ: {{ total_score }} Puan</p>
+
+                <form action="/reset" method="post" style="margin-top: 15px">
+                   <p>Tekrar oynamak için tıklayın</p>  <input id="reset_btn_go" type="submit" value="Tekrar oyna">
+                </form>
+           </div>
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>
