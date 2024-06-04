@@ -23,7 +23,7 @@
             text-align: center;
         }
         textarea {
-            width: 80%;
+            width: 70%;
             height: 100px;
             margin-bottom: 10px;
             padding: 10px;
@@ -81,9 +81,8 @@
 </head>
 <body>
     <div class="container">
-        <!--Oyun sırasında göster-->
         {% if gameover == False %}
-            <h1>Metinden Duygu Analizi</h1>
+            <h1>Yazıdan Duygu Analizi</h1>
             <div class="result">
                 <h2 class="skor">Toplam Skorunuz: {{ total_score }}</h2>
                 <h2 class="skor">Kalan hakkınız: {{ attempts }}</h2>
@@ -107,21 +106,17 @@
                 <input id="reset_btn" type="submit" value="Yeniden Başlat">
             </form>
         {% endif %}
-
-        <!--Oyun bittiği zaman göster-->
         {% if gameover == True %}
         <div class="gameover">
            <div>
                 <p>OYUN BİTTİ</p>
                 <p>SKORUNUZ: {{ total_score }} Puan</p>
-
                 <form action="/reset" method="post" style="margin-top: 15px">
                    <p>Tekrar oynamak için tıklayın</p>  <input id="reset_btn_go" type="submit" value="Tekrar oyna">
                 </form>
            </div>
         </div>
         {% endif %}
-
     </div>
 </body>
 </html>

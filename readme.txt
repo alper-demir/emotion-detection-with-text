@@ -1,5 +1,5 @@
 ## Installation
-
+Git Repository link: https://github.com/alper-demir/emotion-detection-with-text
 1. Clone the project using "git clone", or directly download as a zip file.
 2. Create venv file with "py -m venv venv" command in terminal.
 3. Activate venv with "./venv/scripts/activate" command in terminal.
